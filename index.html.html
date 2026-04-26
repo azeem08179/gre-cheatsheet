@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GRE Math — Master Cheatsheet</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07090f;
+    --surface: #0d1018;
+    --card: #121620;
+    --card2: #171c28;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #dce4f5;
+    --muted: #6b7a99;
+    --dim: #384060;
+
+    --gold: #f5c842;
+    --gold-bg: rgba(245,200,66,0.08);
+    --gold-border: rgba(245,200,66,0.22);
+
+    --teal: #38d9a9;
+    --teal-bg: rgba(56,217,169,0.08);
+    --teal-border: rgba(56,217,169,0.22);
+
+    --violet: #a78bfa;
+    --violet-bg: rgba(167,139,250,0.08);
+    --violet-border: rgba(167,139,250,0.22);
+
+    --coral: #fb7185;
+    --coral-bg: rgba(251,113,133,0.08);
+    --coral-border: rgba(251,113,133,0.22);
+
+    --blue: #5b9cff;
+    --blue-bg: rgba(91,156,255,0.08);
+    --blue-border: rgba(91,156,255,0.22);
+
+    --cyan: #22d3ee;
+    --cyan-bg: rgba(34,211,238,0.08);
+    --cyan-border: rgba(34,211,238,0.22);
+
+    --emerald: #34d399;
+    --emerald-bg: rgba(52,211,153,0.08);
+    --emerald-border: rgba(52,211,153,0.22);
+
+    --amber: #fbbf24;
+    --amber-bg: rgba(251,191,36,0.08);
+    --amber-border: rgba(251,191,36,0.22);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.65;
+    min-height: 100vh;
+  }
+
+  /* ── Noise overlay ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+
+  .wrap { position: relative; z-index: 1; max-width: 1300px; margin: 0 auto; padding: 0 28px 80px; }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 52px 20px 44px;
+    position: relative;
+  }
+  .header::before {
+    content: '';
+    position: absolute; top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 260px;
+    background: radial-gradient(ellipse at 50% 30%, rgba(245,200,66,0.1) 0%, rgba(91,156,255,0.06) 40%, transparent 70%);
+    pointer-events: none;
+  }
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    opacity: 0.9;
+  }
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text);
+  }
+  .header h1 span { color: var(--gold); }
+  .header-sub {
+    margin-top: 12px;
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+  .badge-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 4px 14px;
+    border-radius: 20px;
+    border: 1px solid;
+  }
+
+  /* ── NAV TABS ── */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,9,15,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    display: flex;
+    gap: 2px;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex-shrink: 0;
+    padding: 14px 20px;
+    border: none;
+    background: none;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+    top: 1px;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { border-bottom-color: var(--gold); color: var(--gold); }
+  .tab-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    margin-right: 7px;
+    vertical-align: middle;
+    position: relative; top: -1px;
+  }
+
+  /* ── PANELS ── */
+  .panel { display: none; padding-top: 36px; }
+  .panel.active { display: block; }
+
+  /* ── SECTION LABELS ── */
+  .sec {
+    display: flex; align-items: center; gap: 12px;
+    margin: 40px 0 18px;
+  }
+  .sec:first-child { margin-top: 0; }
+  .sec-icon {
+    width: 30px; height: 30px; border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .sec h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .sec .line { flex: 1; height: 1px; background: var(--border); }
+
+  /* ── GRIDS ── */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .span2 { grid-column: span 2; }
+  .span3 { grid-column: span 3; }
+
+  @media (max-width: 900px) { .g3,.g4 { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .g2,.g3,.g4 { grid-template-columns: 1fr; } .span2,.span3 { grid-column: span 1; } }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px; border-radius: 12px 12px 0 0;
+  }
+  .card.gold::before { background: linear-gradient(90deg, var(--gold), transparent); }
+  .card.teal::before { background: linear-gradient(90deg, var(--teal), transparent); }
+  .card.violet::before { background: linear-gradient(90deg, var(--violet), transparent); }
+  .card.coral::before { background: linear-gradient(90deg, var(--coral), transparent); }
+  .card.blue::before { background: linear-gradient(90deg, var(--blue), transparent); }
+  .card.cyan::before { background: linear-gradient(90deg, var(--cyan), transparent); }
+  .card.emerald::before { background: linear-gradient(90deg, var(--emerald), transparent); }
+  .card.amber::before { background: linear-gradient(90deg, var(--amber), transparent); }
+
+  .ct {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  /* ── FORMULA ROWS ── */
+  .fr {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .fr:last-of-type { border-bottom: none; }
+  .fn { color: var(--muted); font-size: 12px; flex-shrink: 0; }
+  .fv { font-family: 'DM Mono', monospace; font-size: 13px; text-align: right; }
+  .fv.gold { color: var(--gold); }
+  .fv.teal { color: var(--teal); }
+  .fv.violet { color: var(--violet); }
+  .fv.coral { color: var(--coral); }
+  .fv.blue { color: var(--blue); }
+  .fv.cyan { color: var(--cyan); }
+  .fv.emerald { color: var(--emerald); }
+  .fv.amber { color: var(--amber); }
+
+  /* ── BIG FORMULA BOX ── */
+  .big-f {
+    background: rgba(0,0,0,0.35);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    color: var(--teal);
+    margin: 8px 0;
+    letter-spacing: 0.02em;
+  }
+  .big-f .lbl {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  /* ── TIP BOXES ── */
+  .tip {
+    border-radius: 7px;
+    padding: 8px 12px;
+    font-size: 12px;
+    margin-top: 10px;
+    border: 1px solid;
+  }
+  .tip.gold { background: var(--gold-bg); border-color: var(--gold-border); color: var(--text); }
+  .tip.teal { background: var(--teal-bg); border-color: var(--teal-border); color: var(--text); }
+  .tip.coral { background: var(--coral-bg); border-color: var(--coral-border); color: var(--text); }
+  .tip.violet { background: var(--violet-bg); border-color: var(--violet-border); color: var(--text); }
+  .tip.blue { background: var(--blue-bg); border-color: var(--blue-border); color: var(--text); }
+  .tip.cyan { background: var(--cyan-bg); border-color: var(--cyan-border); color: var(--text); }
+  .tip.emerald { background: var(--emerald-bg); border-color: var(--emerald-border); color: var(--text); }
+
+  /* ── TRICK CARD ── */
+  .trick {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 10px;
+  }
+  .trick-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .trick-body { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .trick-body code {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    background: rgba(245,200,66,0.1);
+    color: var(--gold);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* ── WARNING BOX ── */
+  .warn {
+    background: var(--coral-bg);
+    border: 1px solid var(--coral-border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    display: flex; gap: 10px;
+    margin-top: 10px;
+  }
+  .warn-icon { color: var(--coral); flex-shrink: 0; }
+
+  /* ── TABLE ── */
+  table.ft {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.ft th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  table.ft td {
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+    font-size: 13px;
+  }
+  table.ft tr:last-child td { border-bottom: none; }
+  table.ft td:first-child { color: var(--muted); font-size: 12px; }
+
+  /* ── LIST ── */
+  ul.tl { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  ul.tl li {
+    padding-left: 18px;
+    position: relative;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  ul.tl li::before { content: '→'; position: absolute; left: 0; color: var(--muted); font-size: 12px; top: 1px; }
+  em.h { font-style: normal; color: var(--gold); font-weight: 600; }
+  em.g { font-style: normal; color: var(--teal); }
+  em.p { font-style: normal; color: var(--violet); }
+  em.r { font-style: normal; color: var(--coral); }
+
+  /* ── MISC ── */
+  hr.div { border: none; border-top: 1px solid var(--border); margin: 14px 0; }
+  .note { font-size: 11px; color: var(--muted); margin-top: 4px; font-style: italic; }
+  .hot {
+    display: inline-block;
+    background: rgba(251,113,133,0.15); border: 1px solid var(--coral-border);
+    color: var(--coral); font-size: 9px; font-family: 'DM Mono', monospace;
+    padding: 1px 6px; border-radius: 8px; letter-spacing: 0.08em;
+    vertical-align: middle; margin-left: 4px; text-transform: uppercase;
+  }
+  .star {
+    display: inline-block;
+    background: var(--gold-bg); border: 1px solid var(--gold-border);
+    color: var(--gold); font-size: 9px; font-family: 'DM Mono', monospace;
+    padding: 1px 6px; border-radius: 8px; letter-spacing: 0.08em;
+    vertical-align: middle; margin-left: 4px; text-transform: uppercase;
+  }
+  .solid-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px; font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  /* ── COORD GRID ── */
+  .coord-pair {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6px; margin-top: 10px;
+  }
+  .ci {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  .ci-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--emerald); }
+  .ci-val { color: var(--muted); font-size: 11px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<!-- ══════════ HEADER ══════════ -->
+<div class="header">
+  <div class="eyebrow">● GRE / LGAT Quantitative Reasoning</div>
+  <h1>Master <span>Math</span> Cheatsheet</h1>
+  <div class="header-sub">All five reference sheets unified — Arithmetic · Algebra · Geometry · Data Analysis · Strategy</div>
+  <div class="badge-row">
+    <span class="badge" style="color:var(--gold);border-color:var(--gold-border);background:var(--gold-bg)">⚡ 170/170 Target</span>
+    <span class="badge" style="color:var(--teal);border-color:var(--teal-border);background:var(--teal-bg)">All Formulas Verified</span>
+    <span class="badge" style="color:var(--violet);border-color:var(--violet-border);background:var(--violet-bg)">Shortcuts Included</span>
+    <span class="badge" style="color:var(--coral);border-color:var(--coral-border);background:var(--coral-bg)">GRE Traps Flagged</span>
+  </div>
+</div>
+
+</div><!-- end header wrap -->
+
+<!-- ══════════ STICKY NAV ══════════ -->
+<nav class="nav" id="mainNav">
+  <button class="tab-btn active" onclick="showPanel('arithmetic',this)">
+    <span class="tab-dot" style="background:var(--gold)"></span>Arithmetic
+  </button>
+  <button class="tab-btn" onclick="showPanel('algebra',this)">
+    <span class="tab-dot" style="background:var(--teal)"></span>Algebra
+  </button>
+  <button class="tab-btn" onclick="showPanel('geometry',this)">
+    <span class="tab-dot" style="background:var(--violet)"></span>Geometry
+  </button>
+  <button class="tab-btn" onclick="showPanel('data',this)">
+    <span class="tab-dot" style="background:var(--cyan)"></span>Data Analysis
+  </button>
+  <button class="tab-btn" onclick="showPanel('strategy',this)">
+    <span class="tab-dot" style="background:var(--coral)"></span>Strategy & Tricks
+  </button>
+</nav>
+
+<div class="wrap">
+
+<!-- ══════════════════════════════════════════════
+     PANEL 1 — ARITHMETIC
+══════════════════════════════════════════════ -->
+<div class="panel active" id="panel-arithmetic">
+
+  <!-- Number Properties -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--gold-bg);color:var(--gold)">◉</div>
+    <h2 style="color:var(--gold)">Number Properties</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card gold">
+      <div class="ct">Divisibility Rules</div>
+      <table class="ft">
+        <tr><th>Div by</th><th>Rule</th></tr>
+        <tr><td>2</td><td>Last digit even</td></tr>
+        <tr><td>3</td><td>Sum of digits ÷ 3</td></tr>
+        <tr><td>4</td><td>Last 2 digits ÷ 4</td></tr>
+        <tr><td>5</td><td>Ends in 0 or 5</td></tr>
+        <tr><td>6</td><td>By 2 AND 3</td></tr>
+        <tr><td>9</td><td>Sum of digits ÷ 9</td></tr>
+        <tr><td>10</td><td>Ends in 0</td></tr>
+      </table>
+    </div>
+    <div class="card teal">
+      <div class="ct">Primes to Know</div>
+      <div class="big-f" style="color:var(--teal)">2 3 5 7 11 13 17 19 23 29</div>
+      <div class="big-f" style="color:var(--teal)">31 37 41 43 47 53 59 61 67</div>
+      <div class="big-f" style="color:var(--teal)">71 73 79 83 89 97</div>
+      <div class="note">1 is NOT prime. 2 is the only even prime.</div>
+      <hr class="div">
+      <div class="ct">Odd / Even Rules</div>
+      <div class="fr"><span class="fn">odd × odd</span><span class="fv teal">= odd</span></div>
+      <div class="fr"><span class="fn">even × anything</span><span class="fv teal">= even</span></div>
+      <div class="fr"><span class="fn">odd ± odd</span><span class="fv teal">= even</span></div>
+      <div class="fr"><span class="fn">odd ± even</span><span class="fv teal">= odd</span></div>
+    </div>
+    <div class="card violet">
+      <div class="ct">Must-Know Values</div>
+      <div class="fr"><span class="fn">π ≈</span><span class="fv violet">3.14159</span></div>
+      <div class="fr"><span class="fn">√2 ≈</span><span class="fv violet">1.414</span></div>
+      <div class="fr"><span class="fn">√3 ≈</span><span class="fv violet">1.732</span></div>
+      <div class="fr"><span class="fn">√5 ≈</span><span class="fv violet">2.236</span></div>
+      <div class="fr"><span class="fn">Perfect squares</span><span class="fv violet">1,4,9,16,25…225</span></div>
+      <div class="fr"><span class="fn">Perfect cubes</span><span class="fv violet">1,8,27,64,125,216</span></div>
+      <div class="tip violet" style="margin-top:10px;"><strong>1° in radians</strong> = π/180 &nbsp;&nbsp; <strong>Right angle</strong> = 90° = π/2</div>
+    </div>
+  </div>
+
+  <!-- Fractions / Percent / Ratio -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--teal-bg);color:var(--teal)">%</div>
+    <h2 style="color:var(--teal)">Fractions, Decimals & Percents</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card teal">
+      <div class="ct">Key Fraction–Decimal–% Conversions</div>
+      <div class="fr"><span class="fn">1/8</span><span class="fv teal">0.125 = 12.5%</span></div>
+      <div class="fr"><span class="fn">1/6</span><span class="fv teal">≈ 0.167 = 16.7%</span></div>
+      <div class="fr"><span class="fn">1/5</span><span class="fv teal">0.2 = 20%</span></div>
+      <div class="fr"><span class="fn">1/4</span><span class="fv teal">0.25 = 25%</span></div>
+      <div class="fr"><span class="fn">1/3</span><span class="fv teal">≈ 0.333 = 33.3%</span></div>
+      <div class="fr"><span class="fn">3/8</span><span class="fv teal">0.375 = 37.5%</span></div>
+      <div class="fr"><span class="fn">5/8</span><span class="fv teal">0.625 = 62.5%</span></div>
+      <div class="fr"><span class="fn">2/3</span><span class="fv teal">≈ 0.667 = 66.7%</span></div>
+      <div class="fr"><span class="fn">3/4</span><span class="fv teal">0.75 = 75%</span></div>
+    </div>
+    <div class="card gold">
+      <div class="ct">Percent Formulas <span class="hot">High Freq</span></div>
+      <div class="big-f" style="color:var(--gold)">% = (part / whole) × 100</div>
+      <div class="big-f" style="color:var(--gold)">% change = (New−Old)/Old × 100</div>
+      <div class="big-f" style="color:var(--gold)">% of x = (% / 100) × x</div>
+      <div class="tip gold"><strong>⚡ Swap trick:</strong> x% of y = y% of x<br>e.g. 4% of 75 = 75% of 4 = <strong>3</strong></div>
+      <hr class="div">
+      <div class="ct">Successive Discounts <span class="hot">Trap</span></div>
+      <div class="big-f" style="color:var(--coral)">Net = (1−r₁)(1−r₂) × Original</div>
+      <div class="note">20% then 30% off ≠ 50% off! It's 44% off.</div>
+    </div>
+    <div class="card violet">
+      <div class="ct">Ratio & Proportion</div>
+      <div class="big-f" style="color:var(--violet)">a/b = c/d ⟹ ad = bc</div>
+      <div class="fr"><span class="fn">LCM × GCD</span><span class="fv violet">= a × b</span></div>
+      <div class="tip violet"><strong>Combined ratio:</strong> a:b=2:3, b:c=3:4 → a:b:c = 2:3:4</div>
+      <hr class="div">
+      <div class="ct">Mental % Tricks</div>
+      <div class="fr"><span class="fn">10%</span><span class="fv violet">move decimal left 1</span></div>
+      <div class="fr"><span class="fn">5%</span><span class="fv violet">= half of 10%</span></div>
+      <div class="fr"><span class="fn">25%</span><span class="fv violet">= divide by 4</span></div>
+      <div class="fr"><span class="fn">15%</span><span class="fv violet">= 10% + 5%</span></div>
+    </div>
+  </div>
+
+  <!-- Exponents -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--coral-bg);color:var(--coral)">xⁿ</div>
+    <h2 style="color:var(--coral)">Exponents & Roots</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g2">
+    <div class="card coral">
+      <div class="ct">Exponent Laws</div>
+      <div class="fr"><span class="fn">Product</span><span class="fv coral">aᵐ × aⁿ = aᵐ⁺ⁿ</span></div>
+      <div class="fr"><span class="fn">Quotient</span><span class="fv coral">aᵐ / aⁿ = aᵐ⁻ⁿ</span></div>
+      <div class="fr"><span class="fn">Power of power</span><span class="fv coral">(aᵐ)ⁿ = aᵐⁿ</span></div>
+      <div class="fr"><span class="fn">Product power</span><span class="fv coral">(ab)ⁿ = aⁿbⁿ</span></div>
+      <div class="fr"><span class="fn">Zero exp</span><span class="fv coral">a⁰ = 1  (a≠0)</span></div>
+      <div class="fr"><span class="fn">Negative exp</span><span class="fv coral">a⁻ⁿ = 1/aⁿ</span></div>
+      <div class="fr"><span class="fn">Fractional exp</span><span class="fv coral">aᵐ/ⁿ = ⁿ√(aᵐ)</span></div>
+      <div class="tip coral"><strong>e.g.</strong> 8²/³ = (∛8)² = 4</div>
+    </div>
+    <div class="card blue">
+      <div class="ct">Work / Rate / Distance</div>
+      <div class="big-f" style="color:var(--blue)"><div class="lbl">Work formula</div>Work = Rate × Time</div>
+      <div class="big-f" style="color:var(--blue)"><div class="lbl">Combined rate (2 workers)</div>1/T = 1/A + 1/B</div>
+      <div class="big-f" style="color:var(--blue)"><div class="lbl">Distance</div>D = Speed × Time</div>
+      <div class="fr"><span class="fn">Average speed</span><span class="fv blue">= 2v₁v₂ / (v₁+v₂)</span></div>
+      <div class="tip blue"><strong>⚡ Tank drain:</strong> If fill-rate = F and drain-rate = D, net fill rate = F − D</div>
+    </div>
+  </div>
+
+</div><!-- /panel-arithmetic -->
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL 2 — ALGEBRA
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-algebra">
+
+  <!-- Factoring Identities -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--teal-bg);color:var(--teal)">∑</div>
+    <h2 style="color:var(--teal)">Factoring Identities</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card teal">
+      <div class="ct">Difference of Squares <span class="star">Must Know</span></div>
+      <div class="big-f" style="color:var(--teal)">a² − b² = (a+b)(a−b)</div>
+      <div class="tip teal"><strong>Speed math:</strong> 53×47 = (50+3)(50−3) = 2500−9 = <strong>2491</strong>. No calculator!</div>
+    </div>
+    <div class="card gold">
+      <div class="ct">Perfect Squares <span class="star">Must Know</span></div>
+      <div class="fr"><span class="fn">(a+b)²</span><span class="fv gold">a² + 2ab + b²</span></div>
+      <div class="fr"><span class="fn">(a−b)²</span><span class="fv gold">a² − 2ab + b²</span></div>
+      <div class="tip gold"><strong>Trap:</strong> Middle term is 2ab — students always miss it!</div>
+    </div>
+    <div class="card violet">
+      <div class="ct">Sum / Diff of Cubes</div>
+      <div class="fr"><span class="fn">a³+b³</span><span class="fv violet">(a+b)(a²−ab+b²)</span></div>
+      <div class="fr"><span class="fn">a³−b³</span><span class="fv violet">(a−b)(a²+ab+b²)</span></div>
+      <div class="tip violet"><strong>SOAP mnemonic:</strong> Same · Opposite · Always Positive</div>
+    </div>
+  </div>
+
+  <!-- Quadratics -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--coral-bg);color:var(--coral)">x²</div>
+    <h2 style="color:var(--coral)">Quadratics</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card coral">
+      <div class="ct">Quadratic Formula <span class="star">Must Know</span></div>
+      <div class="big-f" style="color:var(--coral)">x = (−b ± √(b²−4ac)) / 2a</div>
+      <div class="ct" style="margin-top:10px">Discriminant b²−4ac</div>
+      <div class="fr"><span class="fn">> 0</span><span class="fv coral">two real roots</span></div>
+      <div class="fr"><span class="fn">= 0</span><span class="fv coral">one real root</span></div>
+      <div class="fr"><span class="fn">< 0</span><span class="fv coral">no real roots</span></div>
+    </div>
+    <div class="card gold">
+      <div class="ct">Vieta's Formulas <span class="hot">Time-Saver</span></div>
+      <div class="big-f" style="color:var(--gold)"><div class="lbl">Sum of roots</div>x₁ + x₂ = −b/a</div>
+      <div class="big-f" style="color:var(--gold)"><div class="lbl">Product of roots</div>x₁ × x₂ = c/a</div>
+      <div class="tip gold">GRE asks "sum/product of roots" → skip solving entirely! Read coefficients directly.</div>
+    </div>
+    <div class="card teal">
+      <div class="ct">Vertex & Forms</div>
+      <div class="fr"><span class="fn">Vertex x-coord</span><span class="fv teal">x = −b/2a</span></div>
+      <div class="fr"><span class="fn">Standard form</span><span class="fv teal">ax²+bx+c</span></div>
+      <div class="fr"><span class="fn">Vertex form</span><span class="fv teal">a(x−h)²+k</span></div>
+      <div class="fr"><span class="fn">Factored form</span><span class="fv teal">a(x−r₁)(x−r₂)</span></div>
+    </div>
+  </div>
+
+  <!-- Linear / Inequalities -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--blue-bg);color:var(--blue)">=</div>
+    <h2 style="color:var(--blue)">Linear Equations & Inequalities</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g2">
+    <div class="card blue">
+      <div class="ct">Lines</div>
+      <div class="fr"><span class="fn">Slope</span><span class="fv blue">m = (y₂−y₁)/(x₂−x₁)</span></div>
+      <div class="fr"><span class="fn">Slope-intercept</span><span class="fv blue">y = mx + b</span></div>
+      <div class="fr"><span class="fn">Point-slope</span><span class="fv blue">y−y₁ = m(x−x₁)</span></div>
+      <div class="fr"><span class="fn">Parallel</span><span class="fv blue">m₁ = m₂</span></div>
+      <div class="fr"><span class="fn">Perpendicular</span><span class="fv blue">m₁ × m₂ = −1</span></div>
+      <div class="fr"><span class="fn">Horizontal</span><span class="fv blue">slope = 0</span></div>
+      <div class="fr"><span class="fn">Vertical</span><span class="fv blue">slope undefined</span></div>
+      <div class="tip blue"><strong>Perp. trap:</strong> Slope ²⁄₃ → perp. slope = −³⁄₂ (negative reciprocal)</div>
+    </div>
+    <div class="card violet">
+      <div class="ct">Inequalities & Absolute Value</div>
+      <div class="warn"><span class="warn-icon">⚠</span><span>Multiply/divide by negative → <strong>flip the inequality sign</strong>. Most common mistake!</span></div>
+      <div class="tip violet" style="margin-top:10px;"><strong>|x| &lt; a</strong> → −a &lt; x &lt; a<br><strong>|x| > a</strong> → x &lt; −a or x > a</div>
+      <hr class="div">
+      <div class="ct">Absolute Value Rules</div>
+      <div class="fr"><span class="fn">√x²</span><span class="fv violet">= |x|, NOT x</span></div>
+      <div class="fr"><span class="fn">|a||b|</span><span class="fv violet">= |ab|</span></div>
+      <div class="tip violet"><strong>Never</strong> square both sides of an inequality unless both sides ≥ 0.</div>
+    </div>
+  </div>
+
+  <!-- Sequences -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--amber-bg);color:var(--amber)">→</div>
+    <h2 style="color:var(--amber)">Sequences & Series</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card amber">
+      <div class="ct">Arithmetic Sequence</div>
+      <div class="big-f" style="color:var(--amber)"><div class="lbl">nth term</div>aₙ = a₁ + (n−1)d</div>
+      <div class="big-f" style="color:var(--amber)"><div class="lbl">Sum of n terms</div>Sₙ = n(a₁ + aₙ) / 2</div>
+      <div class="tip amber"><strong>Middle term trick:</strong> Average of first + last = middle term = average of all</div>
+    </div>
+    <div class="card teal">
+      <div class="ct">Geometric Sequence</div>
+      <div class="big-f" style="color:var(--teal)"><div class="lbl">nth term</div>aₙ = a₁ · rⁿ⁻¹</div>
+      <div class="fr"><span class="fn">Sum (finite)</span><span class="fv teal">a₁(1−rⁿ)/(1−r)</span></div>
+      <div class="fr"><span class="fn">Sum (infinite, |r|&lt;1)</span><span class="fv teal">a₁/(1−r)</span></div>
+    </div>
+    <div class="card gold">
+      <div class="ct">Useful Sums</div>
+      <div class="fr"><span class="fn">Sum 1 to n</span><span class="fv gold">n(n+1)/2</span></div>
+      <div class="fr"><span class="fn">Sum 1 to 100</span><span class="fv gold">5050</span></div>
+      <div class="fr"><span class="fn"># terms a to b</span><span class="fv gold">(b−a)/d + 1</span></div>
+      <div class="tip gold"><strong>Shortcut:</strong> Sum of integers a to b = (# terms) × (a+b)/2</div>
+    </div>
+  </div>
+
+</div><!-- /panel-algebra -->
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL 3 — GEOMETRY
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-geometry">
+
+  <!-- Triangles -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--violet-bg);color:var(--violet)">△</div>
+    <h2 style="color:var(--violet)">Triangles</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card violet">
+      <div class="ct">Core Formulas</div>
+      <div class="fr"><span class="fn">Area</span><span class="fv violet">½ × base × height</span></div>
+      <div class="fr"><span class="fn">Perimeter</span><span class="fv violet">a + b + c</span></div>
+      <div class="fr"><span class="fn">Angle sum</span><span class="fv violet">180°</span></div>
+      <div class="fr"><span class="fn">Exterior angle</span><span class="fv violet">= sum of two remote interior ∠s</span></div>
+      <div class="tip violet"><strong>Triangle inequality:</strong> Sum of any 2 sides > third side</div>
+    </div>
+    <div class="card blue">
+      <div class="ct">Special Triangles <span class="star">Must Know</span></div>
+      <div class="fr"><span class="fn">3-4-5</span><span class="fv blue">also 6-8-10, 9-12-15</span></div>
+      <div class="fr"><span class="fn">5-12-13</span><span class="fv blue">also 10-24-26</span></div>
+      <div class="fr"><span class="fn">8-15-17</span><span class="fv blue">high-freq GRE</span></div>
+      <div class="fr"><span class="fn">45-45-90</span><span class="fv blue">sides: 1 : 1 : √2</span></div>
+      <div class="fr"><span class="fn">30-60-90</span><span class="fv blue">sides: 1 : √3 : 2</span></div>
+      <div class="tip blue"><strong>GRE shortcut:</strong> Spot 3-4-5 family instantly → skip Pythagoras.</div>
+    </div>
+    <div class="card teal">
+      <div class="ct">Similar Triangles</div>
+      <div class="fr"><span class="fn">Side ratio</span><span class="fv teal">k</span></div>
+      <div class="fr"><span class="fn">Area ratio</span><span class="fv teal">k²</span></div>
+      <div class="fr"><span class="fn">Volume ratio</span><span class="fv teal">k³</span></div>
+      <hr class="div">
+      <div class="ct">Pythagoras</div>
+      <div class="big-f" style="color:var(--teal)">a² + b² = c²</div>
+      <div class="note">c is hypotenuse (longest side, opposite right angle)</div>
+    </div>
+  </div>
+
+  <!-- Circles -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--blue-bg);color:var(--blue)">○</div>
+    <h2 style="color:var(--blue)">Circles</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card blue">
+      <div class="ct">Core Formulas</div>
+      <div class="fr"><span class="fn">Circumference</span><span class="fv blue">2πr = πd</span></div>
+      <div class="fr"><span class="fn">Area</span><span class="fv blue">πr²</span></div>
+      <div class="fr"><span class="fn">Diameter</span><span class="fv blue">d = 2r</span></div>
+    </div>
+    <div class="card cyan">
+      <div class="ct">Arcs & Sectors <span class="hot">High Freq</span></div>
+      <div class="fr"><span class="fn">Arc length</span><span class="fv cyan">(θ/360) × 2πr</span></div>
+      <div class="fr"><span class="fn">Sector area</span><span class="fv cyan">(θ/360) × πr²</span></div>
+      <div class="tip cyan"><strong>Pattern:</strong> Both formulas = (fraction of circle) × (full formula). θ is the central angle in degrees.</div>
+    </div>
+    <div class="card violet">
+      <div class="ct">Angle Rules <span class="hot">Trap Zone</span></div>
+      <div class="fr"><span class="fn">Central angle</span><span class="fv violet">= arc measure</span></div>
+      <div class="fr"><span class="fn">Inscribed angle</span><span class="fv violet">= ½ arc measure</span></div>
+      <div class="fr"><span class="fn">Semicircle inscribed ∠</span><span class="fv violet">always 90°</span></div>
+      <div class="fr"><span class="fn">Tangent ⊥ radius</span><span class="fv violet">always 90°</span></div>
+      <div class="warn"><span class="warn-icon">⚠</span><span>Inscribed angle ≠ arc. Inscribed = <strong>½</strong> arc!</span></div>
+    </div>
+  </div>
+
+  <!-- Parallel Lines & Polygons -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--gold-bg);color:var(--gold)">∠</div>
+    <h2 style="color:var(--gold)">Angles & Polygons</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card gold">
+      <div class="ct">Parallel Lines (Transversal)</div>
+      <div class="fr"><span class="fn">Alternate interior</span><span class="fv gold">equal</span></div>
+      <div class="fr"><span class="fn">Corresponding</span><span class="fv gold">equal</span></div>
+      <div class="fr"><span class="fn">Co-interior (same-side)</span><span class="fv gold">supplementary (180°)</span></div>
+      <div class="fr"><span class="fn">Vertically opposite</span><span class="fv gold">equal</span></div>
+      <div class="warn"><span class="warn-icon">⚠</span><span>Co-interior angles = 180°, NOT equal. A classic GRE trap!</span></div>
+    </div>
+    <div class="card teal">
+      <div class="ct">Polygon Angle Sums</div>
+      <div class="big-f" style="color:var(--teal)"><div class="lbl">Interior angle sum</div>(n−2) × 180°</div>
+      <div class="big-f" style="color:var(--teal)"><div class="lbl">Each interior (regular)</div>(n−2)×180 / n</div>
+      <div class="fr"><span class="fn">Exterior angle sum</span><span class="fv teal">always 360°</span></div>
+      <hr class="div">
+      <table class="ft">
+        <tr><th>Shape</th><th>Sum</th></tr>
+        <tr><td>Triangle</td><td>180°</td></tr>
+        <tr><td>Quadrilateral</td><td>360°</td></tr>
+        <tr><td>Pentagon</td><td>540°</td></tr>
+        <tr><td>Hexagon</td><td>720°</td></tr>
+      </table>
+    </div>
+    <div class="card violet">
+      <div class="ct">Quadrilaterals</div>
+      <div class="fr"><span class="fn">Rectangle area</span><span class="fv violet">l × w</span></div>
+      <div class="fr"><span class="fn">Square area</span><span class="fv violet">s²</span></div>
+      <div class="fr"><span class="fn">Square diagonal</span><span class="fv violet">s√2</span></div>
+      <div class="fr"><span class="fn">Rhombus area</span><span class="fv violet">½ × d₁ × d₂</span></div>
+      <div class="fr"><span class="fn">Trapezoid area</span><span class="fv violet">½(b₁+b₂) × h</span></div>
+      <div class="tip violet"><strong>Shortcut:</strong> Square diagonal given? Area = d²/2 directly.</div>
+    </div>
+  </div>
+
+  <!-- 3D Solids -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--coral-bg);color:var(--coral)">◈</div>
+    <h2 style="color:var(--coral)">3D Solids</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card coral">
+      <div class="solid-name" style="color:var(--coral)">Rectangular Prism</div>
+      <div class="fr"><span class="fn">Volume</span><span class="fv coral">l × w × h</span></div>
+      <div class="fr"><span class="fn">Surface area</span><span class="fv coral">2(lw + lh + wh)</span></div>
+      <div class="fr"><span class="fn">Space diagonal</span><span class="fv coral">√(l² + w² + h²)</span></div>
+      <hr class="div">
+      <div class="solid-name" style="color:var(--coral);font-size:13px">Cube (special case)</div>
+      <div class="fr"><span class="fn">Volume</span><span class="fv coral">s³</span></div>
+      <div class="fr"><span class="fn">Surface area</span><span class="fv coral">6s²</span></div>
+      <div class="fr"><span class="fn">Space diagonal</span><span class="fv coral">s√3</span></div>
+      <div class="fr"><span class="fn">Face diagonal</span><span class="fv coral">s√2</span></div>
+    </div>
+    <div class="card amber">
+      <div class="solid-name" style="color:var(--amber)">Cylinder</div>
+      <div class="fr"><span class="fn">Volume</span><span class="fv amber">πr²h</span></div>
+      <div class="fr"><span class="fn">Lateral SA</span><span class="fv amber">2πrh</span></div>
+      <div class="fr"><span class="fn">Total SA</span><span class="fv amber">2πrh + 2πr²</span></div>
+      <div class="tip amber"><strong>Visual:</strong> Lateral SA = "unroll" → rectangle (width = 2πr, height = h)</div>
+      <hr class="div">
+      <div class="solid-name" style="color:var(--amber);font-size:13px">Cone</div>
+      <div class="fr"><span class="fn">Slant height</span><span class="fv amber">l = √(r² + h²)</span></div>
+      <div class="fr"><span class="fn">Volume</span><span class="fv amber">⅓ πr²h</span></div>
+      <div class="fr"><span class="fn">Lateral SA</span><span class="fv amber">πrl</span></div>
+      <div class="fr"><span class="fn">Total SA</span><span class="fv amber">πr(r + l)</span></div>
+    </div>
+    <div class="card emerald">
+      <div class="solid-name" style="color:var(--emerald)">Sphere</div>
+      <div class="fr"><span class="fn">Volume</span><span class="fv emerald">⁴⁄₃ πr³</span></div>
+      <div class="fr"><span class="fn">Surface area</span><span class="fv emerald">4πr²</span></div>
+      <div class="tip emerald"><strong>Memory:</strong> SA = 4 great circles (πr²). V = ⁴⁄₃ × πr³</div>
+      <hr class="div">
+      <div class="solid-name" style="color:var(--emerald);font-size:13px">Pyramid</div>
+      <div class="fr"><span class="fn">Volume</span><span class="fv emerald">⅓ × base area × h</span></div>
+      <div class="tip emerald"><strong>Universal rule:</strong> Pyramid & Cone = ⅓ × Base Area × Height. Always.</div>
+    </div>
+  </div>
+
+  <!-- Coordinate Geometry -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--emerald-bg);color:var(--emerald)">⊕</div>
+    <h2 style="color:var(--emerald)">Coordinate Geometry</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card emerald">
+      <div class="ct">Distance & Midpoint</div>
+      <div class="big-f" style="color:var(--emerald)"><div class="lbl">Distance</div>d = √[(x₂−x₁)² + (y₂−y₁)²]</div>
+      <div class="big-f" style="color:var(--emerald)"><div class="lbl">Midpoint</div>M = ((x₁+x₂)/2, (y₁+y₂)/2)</div>
+      <div class="tip emerald"><strong>Insight:</strong> Distance = Pythagoras. Δx and Δy are the two legs.</div>
+    </div>
+    <div class="card blue">
+      <div class="ct">Slopes & Lines</div>
+      <div class="fr"><span class="fn">Slope</span><span class="fv blue">m = Δy/Δx = rise/run</span></div>
+      <div class="fr"><span class="fn">Slope-intercept</span><span class="fv blue">y = mx + b</span></div>
+      <div class="fr"><span class="fn">Parallel</span><span class="fv blue">m₁ = m₂</span></div>
+      <div class="fr"><span class="fn">Perpendicular</span><span class="fv blue">m₁ × m₂ = −1</span></div>
+    </div>
+    <div class="card violet">
+      <div class="ct">Circle Equation & Quadrants</div>
+      <div class="big-f" style="color:var(--violet)">(x−h)² + (y−k)² = r²</div>
+      <div class="fr"><span class="fn">Center</span><span class="fv violet">(h, k) — signs flip!</span></div>
+      <div class="fr"><span class="fn">Radius</span><span class="fv violet">r = √(RHS)</span></div>
+      <div class="coord-pair" style="margin-top:10px">
+        <div class="ci"><div class="ci-label">Q II (−, +)</div><div class="ci-val">x&lt;0, y>0</div></div>
+        <div class="ci"><div class="ci-label">Q I (+, +)</div><div class="ci-val">x>0, y>0</div></div>
+        <div class="ci"><div class="ci-label">Q III (−, −)</div><div class="ci-val">x&lt;0, y&lt;0</div></div>
+        <div class="ci"><div class="ci-label">Q IV (+, −)</div><div class="ci-val">x>0, y&lt;0</div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /panel-geometry -->
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL 4 — DATA ANALYSIS
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-data">
+
+  <!-- Statistics -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--cyan-bg);color:var(--cyan)">x̄</div>
+    <h2 style="color:var(--cyan)">Descriptive Statistics</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g3">
+    <div class="card cyan">
+      <div class="ct">Averages</div>
+      <div class="big-f" style="color:var(--cyan)"><div class="lbl">Mean (most important)</div>Mean = Sum / Count</div>
+      <div class="fr"><span class="fn">Median</span><span class="fv cyan">middle value (sorted)</span></div>
+      <div class="fr"><span class="fn">Mode</span><span class="fv cyan">most frequent value</span></div>
+      <hr class="div">
+      <div class="big-f" style="color:var(--gold)"><div class="lbl">⚡ Key Trick</div>Sum = Mean × Count</div>
+      <div class="note">GRE loves asking for sum when mean changes — use this!</div>
+    </div>
+    <div class="card teal">
+      <div class="ct">Spread</div>
+      <div class="fr"><span class="fn">Range</span><span class="fv teal">Max − Min</span></div>
+      <div class="fr"><span class="fn">Variance</span><span class="fv teal">avg of squared deviations</span></div>
+      <div class="fr"><span class="fn">Std deviation</span><span class="fv teal">√Variance</span></div>
+      <hr class="div">
+      <ul class="tl">
+        <li>Add constant k to all values → mean shifts +k, std dev <em>unchanged</em></li>
+        <li>Multiply all values by k → mean ×k, std dev ×k</li>
+      </ul>
+    </div>
+    <div class="card violet">
+      <div class="ct">Weighted Average & Skew</div>
+      <div class="big-f" style="color:var(--violet)">= Σ(value × weight) / Σweights</div>
+      <hr class="div">
+      <div class="ct">Skew vs Mean/Median</div>
+      <div class="fr"><span class="fn">Right-skewed</span><span class="fv violet">mean > median</span></div>
+      <div class="fr"><span class="fn">Left-skewed</span><span class="fv violet">mean &lt; median</span></div>
+      <div class="fr"><span class="fn">Symmetric</span><span class="fv violet">mean ≈ median</span></div>
+    </div>
+  </div>
+
+  <!-- Counting & Probability -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--gold-bg);color:var(--gold)">P</div>
+    <h2 style="color:var(--gold)">Counting & Probability</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g2">
+    <div class="card gold">
+      <div class="ct">Combinations & Permutations</div>
+      <div class="big-f" style="color:var(--coral)"><div class="lbl">Permutations (order matters)</div>nPr = n! / (n−r)!</div>
+      <div class="big-f" style="color:var(--gold)"><div class="lbl">Combinations (order doesn't matter)</div>nCr = n! / (r!(n−r)!)</div>
+      <div class="fr"><span class="fn">nCr = nC(n−r)</span><span class="fv gold"></span></div>
+      <div class="fr"><span class="fn">C(n,2) shortcut</span><span class="fv gold">= n(n−1)/2</span></div>
+      <div class="tip gold">Fundamental counting: multiply choices at each independent step.</div>
+    </div>
+    <div class="card cyan">
+      <div class="ct">Probability</div>
+      <div class="big-f" style="color:var(--cyan)">P(A) = favorable / total outcomes</div>
+      <div class="fr"><span class="fn">P(A or B)</span><span class="fv cyan">P(A)+P(B)−P(A and B)</span></div>
+      <div class="fr"><span class="fn">P(A and B)</span><span class="fv cyan">P(A) × P(B|A)</span></div>
+      <div class="fr"><span class="fn">P(not A)</span><span class="fv cyan">1 − P(A)</span></div>
+      <div class="fr"><span class="fn">Independent events</span><span class="fv cyan">P(A) × P(B)</span></div>
+      <div class="tip cyan"><strong>"At least one"</strong> → use complement: 1 − P(none). Always faster!</div>
+    </div>
+  </div>
+
+  <!-- Sets -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--emerald-bg);color:var(--emerald)">∪</div>
+    <h2 style="color:var(--emerald)">Sets & Venn Diagrams</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g2">
+    <div class="card emerald">
+      <div class="ct">Two-Set Formula</div>
+      <div class="big-f" style="color:var(--emerald)">|A∪B| = |A| + |B| − |A∩B|</div>
+      <div class="big-f" style="color:var(--emerald)">Total = A + B − Both + Neither</div>
+    </div>
+    <div class="card teal">
+      <div class="ct">Three-Set Formula</div>
+      <div class="big-f" style="color:var(--teal); font-size:12px">|A∪B∪C| = |A|+|B|+|C|<br>− |A∩B|−|B∩C|−|A∩C|<br>+ |A∩B∩C|</div>
+    </div>
+  </div>
+
+  <!-- Data Interpretation -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--violet-bg);color:var(--violet)">📊</div>
+    <h2 style="color:var(--violet)">Data Interpretation</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g2">
+    <div class="card violet">
+      <div class="ct">Reading Charts</div>
+      <ul class="tl">
+        <li>Always read <em class="h">title, axes, and units</em> first</li>
+        <li>Check if y-axis starts at 0 (visual distortion trap)</li>
+        <li>Pie charts: angles proportional to percentages</li>
+        <li>Watch for "in thousands" — multiply by 1000</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <div class="ct">Common Calculations</div>
+      <div class="fr"><span class="fn">% of total</span><span class="fv blue">part/whole × 100</span></div>
+      <div class="fr"><span class="fn">% change</span><span class="fv blue">(new−old)/old × 100</span></div>
+      <div class="fr"><span class="fn">Ratio</span><span class="fv blue">direct division</span></div>
+      <div class="tip blue"><strong>GRE allows estimation</strong> — when exact values are unclear, smart approximation is faster and often sufficient.</div>
+    </div>
+  </div>
+
+</div><!-- /panel-data -->
+
+
+<!-- ══════════════════════════════════════════════
+     PANEL 5 — STRATEGY & TRICKS
+══════════════════════════════════════════════ -->
+<div class="panel" id="panel-strategy">
+
+  <!-- Question Type Strategies -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--gold-bg);color:var(--gold)">🎯</div>
+    <h2 style="color:var(--gold)">Question Type Strategies</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g2">
+    <div class="card gold">
+      <div class="ct">Quantitative Comparison (QC)</div>
+      <ul class="tl">
+        <li>Test <em class="h">special values</em>: 0, 1, −1, fractions, large numbers</li>
+        <li>Answer changes with different values → choose <em class="h">(D) Cannot be determined</em></li>
+        <li>Simplify both columns — add/subtract same amount on both sides</li>
+        <li>Never multiply by a variable unless you know its sign</li>
+        <li>Columns algebraically equal → answer is <em class="g">(C)</em></li>
+        <li>Figures not necessarily drawn to scale</li>
+      </ul>
+    </div>
+    <div class="card teal">
+      <div class="ct">Multiple Choice & Problem Solving</div>
+      <ul class="tl">
+        <li><em class="g">Plug in numbers</em> when variables are abstract</li>
+        <li><em class="g">Back-solve from answer choices</em> — start with middle option (B or C)</li>
+        <li>Estimate: GRE rewards smart approximation</li>
+        <li>Eliminate clearly wrong choices first</li>
+        <li>Watch for <em class="h">"Select ALL that apply"</em> — check every option</li>
+        <li>No penalty for wrong answers — always guess if stuck</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Algebra Tricks -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--violet-bg);color:var(--violet)">⚡</div>
+    <h2 style="color:var(--violet)">Power Tricks</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="trick">
+    <div class="trick-title">🔁 Difference of Squares — Mental Math Weapon</div>
+    <div class="trick-body">Use <code>(a+b)(a−b) = a²−b²</code> for lightning-fast arithmetic.<br>e.g. <code>53 × 47 = (50+3)(50−3) = 2500 − 9 = 2491</code>. Also: <code>97 × 103 = 10000 − 9 = 9991</code>.</div>
+  </div>
+
+  <div class="trick">
+    <div class="trick-title">🧮 Vieta's Shortcut — Never Solve Quadratics You Don't Have To</div>
+    <div class="trick-body">GRE asks "sum of roots" or "product of roots"? Read directly from coefficients:<br><code>sum = −b/a</code> &nbsp;&nbsp; <code>product = c/a</code>. Saves 60+ seconds per question.</div>
+  </div>
+
+  <div class="trick">
+    <div class="trick-title">📏 Multiply Near 100</div>
+    <div class="trick-body"><code>97 × 96 = ?</code> &nbsp; Differences from 100: 3 and 4.<br>Left digits: <code>100 − 3 − 4 = 93</code> &nbsp; Right digits: <code>3 × 4 = 12</code> → Answer: <code>9312</code></div>
+  </div>
+
+  <div class="trick">
+    <div class="trick-title">🔲 Square Numbers Ending in 5</div>
+    <div class="trick-body"><code>65²</code>: Take leading digit(s) × (itself + 1) = <code>6 × 7 = 42</code>, then append 25 → <code>4225</code>.<br>Also: <code>75² = 5625</code> &nbsp;&nbsp; <code>85² = 7225</code> &nbsp;&nbsp; <code>95² = 9025</code></div>
+  </div>
+
+  <div class="trick">
+    <div class="trick-title">🎯 "At Least One" Probability — Always Use Complement</div>
+    <div class="trick-body"><code>P(at least one) = 1 − P(none at all)</code>.<br>Direct calculation is messy. Complement is always clean. e.g. P(at least one head in 5 tosses) = 1 − (½)⁵ = 1 − 1/32 = <code>31/32</code>.</div>
+  </div>
+
+  <div class="trick">
+    <div class="trick-title">📐 Consecutive Integers Sum Shortcut</div>
+    <div class="trick-body">Sum from a to b = (# of terms) × (average of first + last).<br><code>Sum = (b−a+1) × (a+b)/2</code><br>e.g. Sum of 1 to 100 = 100 × 50.5 = <strong>5050</strong>.</div>
+  </div>
+
+  <!-- Common Traps -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--coral-bg);color:var(--coral)">⚠</div>
+    <h2 style="color:var(--coral)">Common GRE Traps</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g2">
+    <div class="card coral">
+      <div class="ct">Number & Algebra Traps</div>
+      <ul class="tl">
+        <li><em class="r">Variables ≠ positive integers</em> — always test 0, negatives, fractions</li>
+        <li><em class="r">√x² = |x|</em>, not x — absolute value trap</li>
+        <li><em class="r">Inequality flip</em> — must flip when × or ÷ by negative</li>
+        <li><em class="r">Successive discounts ≠ added</em> — 20% + 30% ≠ 50% off</li>
+        <li><em class="r">Percent vs percentage points</em> — completely different concepts</li>
+        <li><em class="r">Average ≠ median</em> — don't confuse them</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <div class="ct">Geometry Traps</div>
+      <ul class="tl">
+        <li><em class="h">Co-interior angles = 180°</em>, NOT equal</li>
+        <li><em class="h">Inscribed angle = ½ arc</em>, not the full arc</li>
+        <li><em class="h">Circle equation center</em>: (x−3)² → center is x=+3 (sign flips)</li>
+        <li><em class="h">Height ≠ slant height</em> in cones and pyramids</li>
+        <li><em class="h">Diagonal of rectangle ≠ side</em> — use √(l²+w²)</li>
+        <li>GRE figures <strong>NOT necessarily to scale</strong> — trust numbers, not pictures</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Time Management -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--emerald-bg);color:var(--emerald)">⏱</div>
+    <h2 style="color:var(--emerald)">Time Management</h2>
+    <div class="line"></div>
+  </div>
+  <div class="g2">
+    <div class="card emerald">
+      <div class="ct">Pacing Guide</div>
+      <table class="ft">
+        <tr><th>Section</th><th>Questions</th><th>Time</th><th>Per Q</th></tr>
+        <tr><td>Quant 1</td><td>27</td><td>47 min</td><td>~1:45</td></tr>
+        <tr><td>Quant 2</td><td>27</td><td>47 min</td><td>~1:45</td></tr>
+      </table>
+      <div class="note" style="margin-top:8px">Aim for &lt;90 sec on easy Qs. Flag and return on hard ones.</div>
+    </div>
+    <div class="card teal">
+      <div class="ct">Order of Attack</div>
+      <ul class="tl">
+        <li><em class="g">1st pass:</em> Answer all easy/medium questions</li>
+        <li><em class="g">Flag & return:</em> Hard or time-consuming questions</li>
+        <li><em class="g">Never leave blank:</em> No penalty — always guess</li>
+        <li><em class="g">Last 2 min:</em> Guess on any remaining flagged</li>
+      </ul>
+      <div class="tip teal" style="margin-top:10px"><strong>🎯 Strategy:</strong> Getting Q1–15 right matters most. Early accuracy > rushing.</div>
+    </div>
+  </div>
+
+  <!-- Geometry Speed Shortcuts -->
+  <div class="sec">
+    <div class="sec-icon" style="background:var(--blue-bg);color:var(--blue)">✓</div>
+    <h2 style="color:var(--blue)">Geometry Speed Shortcuts</h2>
+    <div class="line"></div>
+  </div>
+  <div class="card blue span3">
+    <div class="g3">
+      <div>
+        <div class="ct">Spot Instantly</div>
+        <div class="fr"><span class="fn">3-4-5 family</span><span class="fv blue">skip Pythagoras</span></div>
+        <div class="fr"><span class="fn">30-60-90</span><span class="fv blue">sides: 1 : √3 : 2</span></div>
+        <div class="fr"><span class="fn">45-45-90</span><span class="fv blue">sides: 1 : 1 : √2</span></div>
+      </div>
+      <div>
+        <div class="ct">Circle Quick-Reads</div>
+        <div class="fr"><span class="fn">Semicircle inscribed ∠</span><span class="fv blue">always 90°</span></div>
+        <div class="fr"><span class="fn">Tangent ⊥ radius</span><span class="fv blue">always 90°</span></div>
+        <div class="fr"><span class="fn">Exterior ∠ of polygon</span><span class="fv blue">sums to 360°</span></div>
+      </div>
+      <div>
+        <div class="ct">Area & Volume</div>
+        <div class="fr"><span class="fn">Similar areas ratio k²</span><span class="fv blue">→ sides ratio √k</span></div>
+        <div class="fr"><span class="fn">Cone/Pyramid volume</span><span class="fv blue">always ⅓ × base × h</span></div>
+        <div class="fr"><span class="fn">Square diagonal → area</span><span class="fv blue">= d²/2</span></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /panel-strategy -->
+
+
+<div class="footer">
+  GRE / LGAT Master Cheatsheet · Quantitative Reasoning · All domains unified · Good luck, Azeem! 🎯
+</div>
+
+</div><!-- /wrap -->
+
+<script>
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
